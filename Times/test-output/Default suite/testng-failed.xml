@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="Jsp.MakeMyTrip">
+      <class name="practice.ReadDataFromTextFile">
         <methods>
-          <include name="writeFlightTimings"/>
+          <include name="main"/>
         </methods>
-      </class> <!-- Jsp.MakeMyTrip -->
+      </class> <!-- practice.ReadDataFromTextFile -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

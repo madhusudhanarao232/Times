@@ -1,0 +1,129 @@
+madhu
+
+RMGYantra - APP 
+username - rmgyantra
+password - rmgy@9999
+default port - 8084
+Base uri - http://rmgtestingserver:8084
+===================================================================================
+Pre-requsities for API Testing
+
+-> Client server architecture
+-> Knowledge on HTTP protocol/methods
+-> Knowledge of XML and Json
+-> Knowledge of Database
+-> List of APIs
+-> API Document/Functional Spec/Swagger Doc
+-> API testcases
+-> API Testing Tool - postman/restAssured
+===========================================================================================
+API document:-
+url - http://rmgtestingserver:8084/swagger-ui.html
+-> API dcoument: it acts like a CRS document to start API Testing. 
+                 which is given by API developers
+-> Swagger is a tool to develop API document
+-> its a document consisting of base url and list of APIs and operations that can be 
+   performed on API
+
+    Base uri + Endpoint = 1 API 
+    http://rmgtestingserver:8084 + /addProject = api -> performs creation of project -> POST()
+==========================================================================================
+RmgYantra - stack of your application/explain 3-tier architecture of your application/
+            explain the technology used in your application
+-> Presentaion Layer/Front End -> React JS
+-> Business Layer / Backend -> Java + SpringBoot
+-> Database Layer / backend -> Mysql
+
+============================================================================================
+Collection in postman:
+---> Collection is a feature in postman where all the requests are maintained
+-> create a collection in the name SDET-36-B1 and create request 
+C-> Create - POST() - 201 Created ---> created a new resource in the database/server
+R-> Read - GET() - 200 OK -----> to read/fetch/retreie the existing resource from the database
+U-> Update - PUT()/PATCH() - 200 OK ----> update/modify the existing resource
+D-> Delete - DELETE() - 204 No Content ----> delete the existing resource from the database 
+===========================================================================================
+Variables in Postman
+-> Global variable:-- scope is in entire work space
+-> Local variable:--- scope is in the request
+-> Environment Variable:--- scope is in entire environment within the workspace
+-> Collection variable:--- scope is in the collection
+
+all variables in postman should be used with double-curly braces -- {{variable name}}
+==============================================================================================
+Test Snippet in postman
+-> postman provides java script snippets for validation of API test cases
+-> Every script has to be validated for status code, response time, response body etc to ensure
+   the functionality of the API
+
+-> to verify status code-----status code 200
+pm.test("project created successfully with 201 status ", function () {
+    pm.response.to.have.status(201);
+});
+
+-> to verify response Time-------response time less than 200ms
+pm.test("Response time is less than 200ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(2);
+});
+
+
+-> To verify the status code name------- status code name has a string
+pm.test("Status code name has string", function () {
+    pm.response.to.have.status("Created");
+});
+
+-> To check wheather the expData is present in response body-----response body contains String
+pm.test("Body matches string", function () {
+    pm.expect(pm.response.text()).to.include("Accion");
+});
+
+-> To check the expected Data in a specific location of the response ------ response body-json value check
+pm.test("Get All projects", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData[1].projectId).to.eql("TY_PROJ_1003");
+});
+
+-> To set Collection Variable ---- set collection variable
+pm.collectionVariables.set("randomKey", ran);
+
+============================================================================================
+Random number generation in postman
+-> To send the same request multiple times without changing the request body and to avoid 
+   duplicate data (conficts)
+
+var ran=Math.floor(Math.random()*500); --- generate random number and declare ot as local variable
+
+console.log(ran); ------ print the random number in console
+
+pm.collectionVariables.set("randomKey", ran); --- set random number as a collection variable
+
+===========================================================================================
+Different ways to POST a Request
+-> Using json Object:
+{
+  "createdBy": "sachin",
+  "projectName": "SDET49 {{randomKey}}",
+  "status": "On Going",
+  "teamSize": 70
+}
+
+-> Using JSON file
+--- create a json file with necessary data
+--- body -> binary -> provide file
+advantage:- hard coding is avoided
+            data is stored and retrived from external resource
+            Complex data can passed with json file
+Disadvantage:- we cannot append random number into a file
+
+-> Using Form parameter / Data: Parameter associated with formData in request body
+                    request body is sent in the form of key and value pair
+                    In API Document it will given as (formData)
+
+   Body -> choose form Data and provides key and values
+
+       key               value
+    createdBy           "sachin"
+    ProjectName         "TYSS"
+     status             "On going"
+    teamSize              70
+============================================================================================
